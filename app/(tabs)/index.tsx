@@ -1,98 +1,124 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function App() {
+  const perguntas = [
+    { texto: "Seu parceiro ou ex-parceiro já impediu você de trabalhar ou de ter acesso ao seu próprio dinheiro?", peso: 2 },
+    { texto: "Ele já destruiu, escondeu, vendeu ou se apropriou dos seus bens, documentos ou dinheiro sem sua permissão?", peso: 2 },
+    { texto: "Você já sentiu que ele controla ou decide como você deve gastar seu dinheiro ou recursos financeiros?", peso: 1 },
+    { texto: "Ele já deixou de contribuir financeiramente com a casa ou com os filhos, mesmo tendo condições para isso?", peso: 1 },
+    { texto: "Alguma vez ele fez você assinar documentos ou contratos contra sua vontade?", peso: 2 }
+  ];
 
-export default function HomeScreen() {
+  const [indiceAtual, setIndiceAtual] = useState(0);
+  const [respostas, setRespostas] = useState([]);
+  const [finalizado, setFinalizado] = useState(false);
+
+  const handleResposta = (resposta) => {
+    const novasRespostas = [...respostas, resposta];
+    setRespostas(novasRespostas);
+
+    if (indiceAtual + 1 < perguntas.length) {
+      setIndiceAtual(indiceAtual + 1);
+    } else {
+      setFinalizado(true);
+    }
+  };
+
+  const calcularPontuacao = () => {
+    return respostas.reduce((total, resposta, index) => {
+      if (resposta === 'sim') {
+        return total + perguntas[index].peso;
+      }
+      return total;
+    }, 0);
+  };
+
+  
+  const gerarMensagemFinal = () => {
+    const pontuacao = calcularPontuacao();
+
+    if (pontuacao >= 7) {
+      return "VOCÊ CORRE PERIGO IMEDIATO";
+    } else if (pontuacao >= 4) {
+      return "Procure ajuda em nossos centros de atendimento";
+    } else {
+      return "Fique em alerta";
+    }
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={styles.container}>
+      {!finalizado ? (
+        <>
+          <Text style={styles.pergunta}>
+            {perguntas[indiceAtual].texto}
+          </Text>
+          <View style={styles.botoes}>
+            <Button title="Sim" onPress={() => handleResposta('sim')} />
+            <Button title="Não" onPress={() => handleResposta('nao')} />
+          </View>
+        </>
+      ) : (
+        <>
+          <Text style={styles.resultado}>Resultados:</Text>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+          {perguntas.map((pergunta, index) => (
+            <Text key={index} style={styles.resposta}>
+              {pergunta.texto} → {(respostas[index] || '').toUpperCase()}
+            </Text>
+          ))}
+
+          <Text style={styles.pontuacao}>
+            Pontuação final: {calcularPontuacao()}
+          </Text>
+
+          <Text style={styles.mensagem}>
+            {gerarMensagemFinal()}
+          </Text>
+        </>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+  },
+  pergunta: {
+    fontSize: 22,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  botoes: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    justifyContent: 'space-around',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  resultado: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    textAlign: 'center',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  resposta: {
+    fontSize: 18,
+    marginBottom: 6,
   },
+  pontuacao: {
+    marginTop: 20,
+    fontSize: 18,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  mensagem: {
+    marginTop: 12,
+    fontSize: 18,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    color: '#333',
+  }
 });
