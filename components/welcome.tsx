@@ -1,4 +1,5 @@
 import React from 'react';
+import 
 import { View, Text, Image, Button, StyleSheet } from 'react-native';
 
 export default function App() {
