@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function App() {
   return (
@@ -7,26 +7,42 @@ export default function App() {
      
       <View style={styles.logoContainer}>
         <Image 
-          source={require('../../assets/images/react-logo.png')} 
+          source={require('../../assets/images/CORA_LOGO2.jpeg')} 
           style={styles.logo}
-          resizeMode="contain" //Mantem a ratio da imagem dentro da view
+          resizeMode="contain" // Mantem a ratio da imagem dentro da view
         />
       </View>
 
-     
       <View style={styles.textoContainer}>
         <Text style={styles.paragrafo}>
-          Bem-vindo ao CORA! Por favor, faça seu cadastro ou login para continuar.
+          Bem-vinda {'\n\n'}
+
+          CORA é mais do que um nome, é um convite. Aqui, CORA significa coragem para enfrentar desafios, coração para acolher suas dores e cura para reconstruir sua história.{'\n\n'}
+
+          CORA com você, CORA por você. Juntas, mais fortes.{'\n\n'}
+
+          IMPORTANTE{'\n'}
+          A qualquer momento toque na imagem do aplicativo para proteger sua privacidade
         </Text>
       </View>
 
-    
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonWrapper}>
-          <Button title="Primeiro acesso" onPress={() => alert('Primeiro acesso')} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => alert('Primeiro acesso')}
+          >
+            <Text style={styles.buttonText}>Primeiro acesso</Text>
+          </TouchableOpacity>
         </View>
+
         <View style={styles.buttonWrapper}>
-          <Button title="Login" onPress={() => alert('Login')} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => alert('Login')}
+          >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -61,5 +77,18 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     marginVertical: 8,
+  },
+
+ 
+  button: {
+    backgroundColor: '#E91E63', 
+    paddingHorizontal: 25,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
