@@ -7,7 +7,7 @@ export default function App() {
      
       <View style={styles.logoContainer}>
         <Image 
-          source={require('..assets/images/react-logo.png')} 
+          source={require('../../assets/images/react-logo.png')} 
           style={styles.logo}
           resizeMode="contain" //Mantem a ratio da imagem dentro da view
         />
