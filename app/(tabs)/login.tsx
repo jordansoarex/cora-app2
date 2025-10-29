@@ -15,41 +15,47 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../../assets/images/CORA_LOGO2.jpeg')}
-        style={styles.logo}
-        resizeMode="contain"
-      />
+      {/* Logo no topo */}
+      <View style={styles.top}>
+        <Image
+          source={require('../../assets/images/CORA_LOGO2.jpeg')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
 
-      <Text style={styles.titulo}>Login</Text>
+      {/* Conteúdo centralizado */}
+      <View style={styles.content}>
+        <Text style={styles.titulo}>Login</Text>
 
-      <TextInput
-        placeholder="Email"
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
+        <TextInput
+          placeholder="Email"
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
 
-      <TextInput
-        placeholder="Senha"
-        style={styles.input}
-        value={senha}
-        onChangeText={setSenha}
-        secureTextEntry
-      />
+        <TextInput
+          placeholder="Senha"
+          style={styles.input}
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
+        />
 
-      <Text style={styles.esqueci}>Esqueci a senha</Text>
+        <Text style={styles.esqueci}>Esqueci a senha</Text>
 
-      <TouchableOpacity
-        style={[styles.button, !formValido && styles.button]}
-        onPress={handleEntrar}
-        disabled={!formValido}
-      >
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, !formValido && styles.buttonDisabled]}
+          onPress={handleEntrar}
+          disabled={!formValido}
+        >
+          <Text style={styles.buttonText}>Entrar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -57,21 +63,27 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    padding: 20,
+  },
+  top: {
+    alignItems: 'center',
+    marginTop: 40, // distância do topo da tela
   },
   logo: {
     width: 120,
     height: 120,
-    alignSelf: 'center',
-    marginBottom: 30,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
   },
   titulo: {
     fontSize: 24,
     fontWeight: 'bold',
     alignSelf: 'center',
     marginBottom: 20,
+    color: '#E91E63',
   },
   input: {
     borderWidth: 1,
