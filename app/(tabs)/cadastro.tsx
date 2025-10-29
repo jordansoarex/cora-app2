@@ -11,9 +11,11 @@ export default function Cadastro() {
   const [senha, setSenha] = useState('');
   const [termosAceitos, setTermosAceitos] = useState(false);
  
+  const formValido = nome && cpf && email && senha && termosAceitos;
+  
   const handleEntrar = () => {
-    if (!termosAceitos) {
-      alert('Você precisa aceitar os termos de uso');
+    if (!formValido) {
+      alert('Para prosseguir você precisa preencher todos os campos e aceitar os termos de uso');
       return;
     }
     // tratar o envio do cadastro dps
@@ -37,14 +39,14 @@ export default function Cadastro() {
           onChangeText={setNome} 
         />
         <TextInput
-          placeholder="CPF" //CRIAR ALGUMA FORMA DE VERIFICAR CPF VÁLIDO
-          style={styles.input}
+          placeholder="CPF" //IMPLEMENTAR SCRIPT PARA O CPF
+          style={styles.input} //PERSONALIZAR INPUT ___.___.___-__
           value={cpf}
           onChangeText={setCpf}
           keyboardType="numeric"
         />
         <TextInput
-          placeholder="Email"
+          placeholder="Email" //APRESENTAR MODELO PARA O EMAIL : "SEU_EMAIL@.COM"
           style={styles.input}
           value={email} 
           onChangeText={setEmail}
@@ -53,7 +55,7 @@ export default function Cadastro() {
           autoCorrect={false}
         />
         <TextInput
-          placeholder="Senha"
+          placeholder="Senha" //CRIAR UMA NOVA SESSÃO PARA A CONFIRMAÇÃO DA SENHA
           style={styles.input}
           value={senha}
           onChangeText={setSenha}
@@ -70,7 +72,7 @@ export default function Cadastro() {
             Li e concordo com os{' '}
             <Text 
               style={styles.link}
-              onPress={() => Linking.openURL('www.google.com')} //criar o link pros termos !!!!!!!!!!!!
+              onPress={() => Linking.openURL('www.google.com')} //criar o link pros termos 
             >
               termos de uso
             </Text>
@@ -78,9 +80,9 @@ export default function Cadastro() {
         </View>
  
         <TouchableOpacity 
-          style={[styles.button, !termosAceitos && styles.buttonDisabled]} 
+          style={[styles.button, !formValido && styles.buttonDisabled]} 
           onPress={handleEntrar}
-          disabled={!termosAceitos}
+          disabled={!formValido}
         >
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
