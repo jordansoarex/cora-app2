@@ -12,7 +12,7 @@ export default function Cadastro() {
   const [termosAceitos, setTermosAceitos] = useState(false);
  
   const formValido = nome && cpf && email && senha && termosAceitos;
-  
+
   const handleEntrar = () => {
     if (!formValido) {
       alert('Para prosseguir você precisa preencher todos os campos e aceitar os termos de uso');
