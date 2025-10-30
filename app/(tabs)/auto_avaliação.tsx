@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import perguntas from './perguntas';
+import perguntas from '../../components/perguntas';
 
 
 export default function App() {
@@ -44,7 +44,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {!finalizado ? (
+ components     {!finalizado ? (
         <>
           <Text style={styles.pergunta}>
             {perguntas[indiceAtual].texto}
